@@ -22,7 +22,7 @@ def show():
                 sql.insert_client(surname, name)
             case '3':
                 id = input('id: ')
-                sql.delete(id)
+                sql.delete_client(id)
             case '4':
                 id = input('id: ')
                 surname = input('surname: ')
@@ -33,8 +33,9 @@ def show():
                     avto_inf = input('''### Данные автомобиля. ###
     1. Вывести данные автомобиля
     2. Добавить данные автомобиля
-    3. Обновить данные автомобиля
-    4. Выход
+    3. Удалить данные автомобиля
+    4. Обновить данные автомобиля
+    5. Выход
     
     Выбор: ''')
 
@@ -42,12 +43,16 @@ def show():
                         case '1':
                             sql.select_cars()
                         case '2':
+                            client_id = input('client_id: ')
                             brand = input('brand: ')
                             model = input('model: ')
                             color = input('color: ')
                             engine = input('engine: ')
-                            sql.insert_cars(brand, model, color, engine)
+                            sql.insert_cars(client_id, brand, model, color, engine)
                         case '3':
+                            client_id = input('client_id: ')
+                            sql.delete_cars(client_id)
+                        case '4':
                             id = input('id: ')
                             client_id = input('client_id: ')
                             brand = input('brand: ')
@@ -55,7 +60,7 @@ def show():
                             color = input('color: ')
                             engine = input('engine: ')
                             sql.update_cars(id, client_id, brand, model, color, engine)
-                        case '4':
+                        case '5':
                             break
                         case _:
                             print('Что-то пошло не так! Выбирайте из списка.')

@@ -27,7 +27,11 @@ class Data(ABC):
         pass
 
     @abstractmethod
-    def delete(self):
+    def delete_client(self):
+        pass
+
+    @abstractmethod
+    def delete_cars(self):
         pass
 
 class Postgres(Data):
@@ -73,10 +77,10 @@ class Postgres(Data):
         with self.__CONNECTION.cursor() as self.sql:
             self.sql.execute('''INSERT INTO client(surname, name) VALUES(%s, %s)''', (surname, name))
 
-    def insert_cars(self, id, client_id, brand, model, color, engine):
+    def insert_cars(self, client_id, brand, model, color, engine):
         with self.__CONNECTION.cursor() as self.sql:
-            self.sql.execute('''INSERT INTO cars(id, client_id, brand, model, color, engine) 
-                                        VALUES(%s, %s, %s, %s, %s)''', (id, client_id, brand, model, color, engine))
+            self.sql.execute('''INSERT INTO cars(client_id, brand, model, color, engine) 
+                                        VALUES(%s, %s, %s, %s, %s)''', (client_id, brand, model, color, engine))
 
     def update_client(self, id, surname, name):
         with self.__CONNECTION.cursor() as self.sql:
@@ -87,6 +91,10 @@ class Postgres(Data):
             self.sql.execute('''UPDATE cars SET client_id = %s, brand = %s, model = %s, color = %s, engine = %s  
                                         WHERE id = %s''', (client_id, brand, model, color, engine, id))
 
-    def delete(self, id):
+    def delete_client(self, id):
         with self.__CONNECTION.cursor() as self.sql:
-            self.sql.execute('''DELETE FROM client WHERE id = %s''', (id,))
+            self.sql.execute('''DELETE FROM client WHERE id = %s''', (id))
+
+    def delete_cars(self, client_id):
+        with self.__CONNECTION.cursor() as self.sql:
+            self.sql.execute('''DELETE FROM cars WHERE client_id = %s''', (client_id))
